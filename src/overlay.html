@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; background: transparent; overflow: hidden; }
+  body { font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif; }
+  .panel { width: 190px; margin: 10px auto 0; padding: 4px 6px 10px; position: relative; color: #4A3A2A; }
+  .close, .peek {
+    position: absolute; top: 2px; width: 20px; height: 20px; border-radius: 10px;
+    background: #FFFFFFcc; border: 1px solid #E4DECF; color: #8A8371; font-size: 11px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .close { left: calc(50% + 46px); }
+  .peek { left: calc(50% - 66px); }
+  .orb { width: 100px; height: 100px; margin: 10px auto 8px; cursor: pointer; position: relative; }
+  .orb svg { width: 100%; height: 100%; }
+  .ring-out { stroke: #C2611A; filter: drop-shadow(0 0 6px #C2611Aa0); }
+  .ring-tick { stroke: #C2611A; opacity: .8; }
+  .ring-in { stroke: #2A7F72; }
+  .core { fill: #C2611A; filter: drop-shadow(0 0 8px #C2611Ac0); }
+  .orb.listening .ring-in { animation: spin 3s linear infinite; }
+  .orb.listening .core { animation: beat .9s ease-in-out infinite; }
+  .orb.listening .ring-out { animation: pulseOpac 1s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes beat { 0%,100% { r: 17; } 50% { r: 20; } }
+  @keyframes pulseOpac { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+  .status {
+    text-align: center; font-size: 11px; line-height: 1.6; max-height: 50px; overflow: hidden; padding: 2px 8px;
+    background: #FFFFFFcc; border: 1px solid #E4DECF; border-radius: 10px;
+  }
+  .status:empty { display: none; }
+  .peekPanel { display: none; background: #FFFFFFee; border: 1px solid #E4DECF; border-radius: 10px; padding: 6px 8px; margin-bottom: 6px; font-size: 10.5px; color: #8A8371; line-height: 1.7; max-height: 90px; overflow-y: auto; }
+  .peekPanel.open { display: block; }
+  .peekPanel .step::before { content: "› "; color: #C2611A; }
+  .chartBox { display: none; background: #FFFFFFee; border: 1px solid #E4DECF; border-radius: 10px; padding: 6px; margin-bottom: 6px; }
+  .chartBox.open { display: block; }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <button class="close" id="ovClose">✕</button>
+    <button class="peek" id="ovPeek" title="پشت‌صحنه">◂</button>
+    <div class="peekPanel" id="ovPeekPanel"></div>
+    <div class="chartBox" id="ovChartBox"><canvas id="ovChart" width="160" height="90"></canvas></div>
+    <div class="orb" id="ovOrb">
+      <svg viewBox="0 0 100 100">
+        <circle class="ring-out" cx="50" cy="50" r="44" fill="none" stroke-width="5" stroke-dasharray="6 3"/>
+        <circle class="ring-tick" cx="50" cy="50" r="34" fill="none" stroke-width="2"/>
+        <circle class="ring-in" cx="50" cy="50" r="26" fill="none" stroke-width="1.6" stroke-dasharray="2 5"/>
+        <circle class="core" cx="50" cy="50" r="17"/>
+      </svg>
+    </div>
+    <div class="status" id="ovStatus"></div>
+  </div>
+<script src="i18n.js"></script>
+<script src="stt.js"></script>
+<script src="wake.js"></script>
+<script src="persona.js"></script>
+<script src="chatcore.js"></script>
+<script src="artifact.js"></script>
+<script src="actions.js"></script>
+<script src="overlay.js"></script>
+</body>
+</html>

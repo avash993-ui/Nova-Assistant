@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>Nova</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="brand"><div class="orb" id="brandOrb"><svg viewBox="0 0 30 30"><circle class="ring-out" cx="15" cy="15" r="13" fill="none" stroke-width="1.6"/><circle class="ring-mid" cx="15" cy="15" r="10" fill="none" stroke-width="1.2" stroke-dasharray="2 2.4"/><circle class="ring-in" cx="15" cy="15" r="10" fill="none" stroke-width="1.2" stroke-dasharray="1 10"/><circle class="core" cx="15" cy="15" r="7"/></svg></div><span data-i18n="brand">Nova</span></div>
+    <button class="nav-item active" data-screen="chat" data-i18n="nav_chat">💬 Chat</button>
+    <button class="nav-item" data-screen="setup" data-i18n="nav_setup">🔌 Connect API</button>
+    <button class="nav-item" data-screen="settings" data-i18n="nav_settings">⚙️ Settings</button>
+    <div class="spacer"></div>
+    <div class="mini" id="wakeStatus" data-i18n="wake_off">Wake word: off</div>
+  </div>
+
+  <div class="content">
+    <div class="topbar"><h1 id="topTitle" data-i18n="title_chat">Chat with Nova</h1></div>
+
+    <!-- ===== CHAT ===== -->
+    <div class="screen active" id="screen-chat">
+      <div class="chat-wrap">
+        <div class="history-panel" id="historyPanel"></div>
+        <div class="chat-main">
+          <div class="messages" id="messages"></div>
+          <div class="composer">
+            <button class="icon-btn" id="attachBtn" title="Attach file">📎</button>
+            <textarea id="composerInput" rows="1" data-i18n-ph="composer_ph" placeholder="Message…"></textarea>
+            <button class="icon-btn mic" id="micBtn" title="Microphone">🎙</button>
+            <button class="icon-btn primary" id="sendBtn" title="Send">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETUP ===== -->
+    <div class="screen" id="screen-setup">
+      <div class="panel-scroll">
+        <p class="hint" data-i18n="setup_intro">Nova works with any OpenAI-compatible AI service. Pick one, paste your key, and test it.</p>
+        <div class="field-label" data-i18n="provider">Service</div>
+        <div class="chip-row" id="providerChips"></div>
+        <div class="field-label" data-i18n="api_base">API URL (up to /v1)</div>
+        <input type="text" id="apiBase" placeholder="https://api.example.com/v1">
+        <div class="field-label" data-i18n="api_key">API key</div>
+        <input type="password" id="apiKey" placeholder="sk-...">
+        <div class="field-label" data-i18n="model">Model</div>
+        <div class="row">
+          <input type="text" id="apiModel" data-i18n-ph="model_ph" placeholder="Model name" style="flex:1">
+          <button class="btn" id="fetchModelsBtn" data-i18n="fetch_models">Fetch model list</button>
+        </div>
+        <select id="modelList" style="margin-top:8px; display:none;"></select>
+        <div class="row" style="margin-top:18px;">
+          <button class="btn outline" id="testBtn" data-i18n="test_conn">Test connection</button>
+          <button class="btn gold" id="saveApiBtn" data-i18n="save">Save</button>
+          <span id="setupStatus"></span>
+        </div>
+
+        <div class="field-label" data-i18n="offline_title">Offline AI (Ollama, runs on this computer)</div>
+        <p class="hint" data-i18n="offline_hint">Needs the free Ollama app installed once. After that it works fully offline, with nothing sent to the internet.</p>
+        <div class="row">
+          <button class="btn" id="ollamaCheckBtn" data-i18n="offline_check">Check Ollama</button>
+          <button class="btn outline" id="ollamaInstallLink" data-i18n="offline_get">Get Ollama</button>
+          <span id="ollamaStatus"></span>
+        </div>
+        <div class="field-label" data-i18n="offline_installed">Installed on this computer</div>
+        <div id="ollamaInstalledList" class="empty-state" data-i18n="offline_none_installed">None yet.</div>
+        <div class="field-label" data-i18n="offline_popular">Popular models you can download</div>
+        <div id="ollamaCatalog"></div>
+
+        <div class="switch-row">
+          <span class="label" data-i18n="offline_dictate">Allow offline dictation (uses the browser's built-in engine, no internet)</span>
+          <label class="switch"><input type="checkbox" id="offlineDictateToggle"><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+          <span class="label" data-i18n="offline_auto_online">Switch to the online AI automatically when internet comes back</span>
+          <label class="switch"><input type="checkbox" id="autoOnlineToggle"><span class="slider"></span></label>
+        </div>
+        <p class="hint" id="connStatus"></p>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS ===== -->
+    <div class="screen" id="screen-settings">
+      <div class="panel-scroll">
+        <div class="field-label" data-i18n="language">App language</div>
+        <select id="uiLangSelect">
+          <option value="en">English</option>
+          <option value="fa">فارسی</option>
+          <option value="ar">العربية</option>
+          <option value="ru">Русский</option>
+        </select>
+
+        <div class="field-label" data-i18n="assistant_name">Assistant name</div>
+        <input type="text" id="assistantName" placeholder="Nova">
+
+        <div class="field-label" data-i18n="dev_mode">Developer mode</div>
+        <div id="devLocked">
+          <div class="row">
+            <input type="password" id="devPin" data-i18n-ph="dev_pin_ph" placeholder="Developer PIN" style="flex:1">
+            <button class="btn gold" id="devUnlockBtn" data-i18n="unlock">Unlock</button>
+          </div>
+          <div class="hint status-err" id="devMsg"></div>
+        </div>
+        <div id="devUnlocked" style="display:none;">
+          <p class="status-ok" data-i18n="dev_on">Enabled ✓ — 50-item memory, auto web search.</p>
+          <button class="btn outline" id="devLockBtn" data-i18n="lock">Disable</button>
+          <div class="field-label" data-i18n="change_pin">Change developer PIN</div>
+          <div class="row">
+            <input type="password" id="newDevPin" data-i18n-ph="new_pin_ph" placeholder="New PIN" style="flex:1">
+            <button class="btn" id="changeDevPinBtn" data-i18n="save_pin">Save new PIN</button>
+          </div>
+        </div>
+
+        <div class="switch-row">
+          <span class="label" data-i18n="web_search">Web search for fresh questions</span>
+          <label class="switch"><input type="checkbox" id="webOnToggle"><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+          <span class="label" data-i18n="speak_typed">Speak typed answers aloud too</span>
+          <label class="switch"><input type="checkbox" id="speakTypedToggle"><span class="slider"></span></label>
+        </div>
+        <div class="field-label" data-i18n="stt_key">Speech recognition key (free, from console.groq.com)</div>
+        <input type="password" id="sttKey" placeholder="gsk_...">
+        <p class="hint" data-i18n="stt_key_hint">Without this, voice recognition falls back to the browser's built-in engine, which rarely works inside Electron. With it, Nova sends only the burst of speech it detects to Whisper for accurate transcription — nothing is sent while the room is quiet.</p>
+
+        <div class="switch-row">
+          <span class="label" data-i18n="wake_toggle">🎙 Wake word: open by saying "Hey Nova"</span>
+          <label class="switch"><input type="checkbox" id="wakeToggle"><span class="slider"></span></label>
+        </div>
+        <p class="hint" id="wakeHint"></p>
+
+        <div class="switch-row">
+          <span class="label" data-i18n="allow_exec">🛠 Allow build commands to run on this laptop</span>
+          <label class="switch"><input type="checkbox" id="allowExecToggle"><span class="slider"></span></label>
+        </div>
+        <div class="hint" data-i18n="allow_exec_hint">Nova only ever suggests a command; nothing runs until you click "Run".</div>
+        <div id="buildFolderRow" style="display:none; margin-top:8px;">
+          <div class="row">
+            <input type="text" id="buildFolderPath" data-i18n-ph="build_folder_ph" placeholder="No project folder chosen" readonly style="flex:1">
+            <button class="btn" id="pickFolderBtn" data-i18n="pick_folder">Choose folder</button>
+          </div>
+        </div>
+
+        <div class="field-label" data-i18n="tts_voice">Output voice (TTS)</div>
+        <select id="voiceSelect"></select>
+
+        <div class="field-label" data-i18n="humor">Humor level</div>
+        <input type="range" id="humorRange" min="0" max="100" value="40" style="width:100%;">
+
+        <div class="field-label" data-i18n="memory">Memory (things to remember)</div>
+        <div id="memoryList"></div>
+        <div class="row">
+          <input type="text" id="memoryInput" data-i18n-ph="memory_ph" placeholder="e.g. My name is Alex" style="flex:1">
+          <button class="btn gold" id="memoryAddBtn" data-i18n="add">Add</button>
+        </div>
+
+        <div class="field-label" data-i18n="terms_title">Terms of use &amp; support</div>
+        <p class="hint" style="white-space:pre-line" data-i18n="terms_body"></p>
+        <p class="hint" style="color:var(--gold-text)" data-i18n="bug_contact"></p>
+      </div>
+    </div>
+  </div>
+
+  <button class="activity-toggle" id="activityToggle" title="پشت‌صحنه">◂</button>
+  <div class="activity-panel" id="activityPanel"></div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="stt.js"></script>
+<script src="wake.js"></script>
+<script src="persona.js"></script>
+<script src="chatcore.js"></script>
+<script src="artifact.js"></script>
+<script src="actions.js"></script>
+<script src="renderer.js"></script>
+</body>
+</html>

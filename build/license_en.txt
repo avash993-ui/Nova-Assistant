@@ -1,0 +1,43 @@
+Nova — Terms of Use (Avash Studio)
+
+By installing and using Nova, you agree to the following:
+
+1. This software is provided "as is", with no guarantee of error-free or uninterrupted operation.
+
+2. Nova is an independent assistant and is not affiliated with any specific AI provider. You supply your own API key for the service of your choice, and you are solely responsible for that service's costs and terms of use.
+
+3. Your settings, conversations, and API keys are stored only on this computer and are never sent to any server owned by Avash Studio.
+
+4. The on-device command runner ("Run") only executes a command after your explicit confirmation, every single time. Nothing runs without your approval.
+
+5. You may not use this software for any unlawful purpose.
+
+6. This software is under active development and you may encounter issues.
+
+If you run into a bug or any other issue while using Nova, please contact us so we can look into it:
+avash993@gmail.com
+
+Click "I Agree" to continue the installation.
+
+================================================
+
+قرارداد و قوانین استفاده از نوا (Avash Studio)
+
+با نصب و استفاده از نوا، شما با موارد زیر موافقت می‌کنید:
+
+۱. این نرم‌افزار «همان‌طور که هست» ارائه می‌شود و هیچ تضمینی برای عملکرد بی‌نقص یا بدون خطای آن وجود ندارد.
+
+۲. نوا یک دستیار مستقل است و به هیچ سرویس هوش مصنوعی خاصی وابسته نیست. شما خودتان کلید API سرویسی که انتخاب می‌کنید را وارد می‌کنید و مسئولیت هزینه‌ها و قوانین استفاده از آن سرویس بر عهده‌ی خودتان است.
+
+۳. تنظیمات، مکالمه‌ها و کلیدهای API شما فقط روی همین کامپیوتر ذخیره می‌شوند و هیچ‌وقت به سروری متعلق به Avash Studio ارسال نمی‌شوند.
+
+۴. قابلیت اجرای دستور روی سیستم («اجرا کن») فقط بعد از تایید صریح شما در هر بار، اجرا می‌شود؛ هیچ دستوری بدون تایید شما اجرا نمی‌شود.
+
+۵. استفاده از این نرم‌افزار برای هرگونه فعالیت غیرقانونی ممنوع است.
+
+۶. این نرم‌افزار در حال توسعه است و ممکن است با مشکلاتی روبه‌رو بشید.
+
+اگر در حین استفاده با باگ یا مشکلی مواجه شدید، لطفاً با ایمیل زیر تماس بگیرید تا بررسی و برطرف بشه:
+avash993@gmail.com
+
+با کلیک روی «موافقم»، نصب ادامه پیدا می‌کند.
